@@ -10,6 +10,7 @@ var modalcancel = document.getElementById('modal-cancel');
 var modalclose = document.getElementById('modal-close');
 var makepost = document.getElementById('modal-accept');
 var posts = document.getElementsByClassName('post');
+var usefile;
 function remove(){
   url.value = group_input.value = title_input.value = body_input.value = image.src = '';
 }
@@ -34,10 +35,8 @@ function parameters(){
  if(group_input.value=='' || body_input.value =='' || (url.value=='' && image.src=='')|| title_input.value==''){
    return false;
  }
- if (url.value = '')
-  url.value = image.src;
-  console.log(url.value);
-  console.log(image.src);
+ if(url.value!= ''){
+  image.src = url.value}
  return true;
 }
 
@@ -51,7 +50,7 @@ temp[0].textContent = group_input.value;
 temp = newnode.getElementsByClassName('post-body');
 temp[0].textContent = body_input.value;
 temp = newnode.getElementsByClassName('post-image');
-temp[0].setAttribute('src', url.value);
+temp[0].setAttribute('src', image.src);
 posts[0].parentNode.appendChild(newnode);
 }
 
@@ -71,11 +70,11 @@ makepost.addEventListener('click', function(event){
    var postRequest = new XMLHttpRequest();
    var requestURL = '/add';
    postRequest.open('POST', requestURL);
-   var requestBody = JSON.stringify({
-     title: title_input.value,
-     bodytext: body_input.value,
-     url: url.value,
-   });
+  var requestBody = JSON.stringify({
+       title: title_input.value,
+       bodytext: body_input.value,
+       url:image.src,
+    });
    postRequest.setRequestHeader('Content-Type', 'application/json');
    postRequest.addEventListener('load', function (event) {
    });
