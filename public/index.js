@@ -5,17 +5,13 @@ var title_input = document.getElementById('title-input');
 var group_input = document.getElementById('group-input');
 var body_input = document.getElementById('body-input');
 var url = document.getElementById('image-input');
+var image = document.getElementById('file-input');
 var modalcancel = document.getElementById('modal-cancel');
 var modalclose = document.getElementById('modal-close');
 var makepost = document.getElementById('modal-accept');
 var posts = document.getElementsByClassName('post');
 function remove(){
-console.log(group_input);
-console.log(title_input);
-console.log(url);
-console.log(body_input);
-
-  url.value = group_input.value = title_input.value = body_input.value = '';
+  url.value = group_input.value = title_input.value = body_input.value = image.src = '';
 }
 
 function hide(){
@@ -24,15 +20,24 @@ function hide(){
   modal.classList.toggle('hidden');
 }
 
+var loadFile = function(event) {
+	image.src = URL.createObjectURL(event.target.files[0]);
+};
+
+
 function unhide(){
   backdrop.classList.toggle('hidden');
   modal.classList.toggle('hidden');
 }
 
 function parameters(){
- if(group_input.value=='' || body_input.value =='' || url.value=='' || title_input.value==''){
+ if(group_input.value=='' || body_input.value =='' || (url.value=='' && image.src=='')|| title_input.value==''){
    return false;
  }
+ if (url.value = '')
+  url.value = image.src;
+  console.log(url.value);
+  console.log(image.src);
  return true;
 }
 
@@ -60,7 +65,6 @@ modalcancel.addEventListener('click', function(event){
   hide();
 })
 makepost.addEventListener('click', function(event){
-  console.log('wow');
  if(parameters()){
    createpost();
    //code from here to next comment is server part
